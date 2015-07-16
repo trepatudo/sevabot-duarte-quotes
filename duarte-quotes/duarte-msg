@@ -1,9 +1,7 @@
 #!/bin/sh
-# Variables to change
-chat="EDIT ME"
-secret="EDIT ME"
-msgaddress="http://localhost:5000/msg/"
-# EO Variables to change
+# Load config
+source config.sh
+# EO config
 
     msg="$1"
 
