@@ -1,0 +1,5 @@
+#!/bin/bash
+
+chat="EDIT ME"
+secret="EDIT ME"
+msgaddress="http://localhost:5000/msg/"

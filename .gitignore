@@ -62,3 +62,5 @@ logs/*
 *.tmp
 custom/*
 
+# Duarte custom stuff
+duarte-quotes/config.sh
