@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+
+    <!--suppress HtmlUnknownTarget -->
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='seva.css') }}"/>
+    <!--suppress HtmlUnknownTarget -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="hero-unit">
+            <h1>
+                <a href="https://github.com/opensourcehacker/sevabot">Sevabot</a>
+            </h1>
+
+            <p>A general-purpose hacked together Skype bot at your service.</p>
+
+        </div>
+
+        <h2>Status</h2>
+
+        <div class="alert alert-success">Sevabot is running</div>
+
+        <h2>Documentation</h2>
+
+        <p>
+            Please visit
+            <a href="https://github.com/opensourcehacker/sevabot">Sevabot</a>
+            project page for more information.
+        </p>
+
+        <h2>Admin</h2>
+
+        <h3>Chat list</h3>
+
+        <p>Enter shared settings from <i>settings.py</i> file to access the bot
+           chat list</p>
+
+        <form action="/chats/" method="POST" class="form-horizontal">
+
+            <div class="control-group">
+                <label class="control-label" for="secret">Shared secret</label>
+                <div class="controls">
+                    <input type="password" name="secret" id="secret" placeholder="Look into your settings.py"></div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn">Show chat list</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</body>

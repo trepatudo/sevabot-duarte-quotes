@@ -1,0 +1,23 @@
+# sevabot-duarte-quotes
+A clone of our friend based on sevabot
+
+# how to run duarte
+- follow the sevabot instalattion guide: https://sevabot-skype-bot.readthedocs.org/en/latest/
+- edit the "secret" and the "chat" in /duarte-quotes/duarte to correspond to your sevabot secret and the room id
+- then run the script to read 'quotes' file
+``` shell
+	cd duarte-quotes
+	./duarte
+```
+
+# how to speak as duarte
+``` shell
+        cd duarte-quotes
+        ./duarte-msg <message here>
+```
+
+# thanks to
+- Duarte Godinho
+- Pedro Estrela
+- Patrick
+- BOT Duarte Godinho

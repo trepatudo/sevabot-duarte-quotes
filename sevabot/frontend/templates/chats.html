@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Available Skype chats</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+
+    <!--suppress HtmlUnknownTarget -->
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='seva.css') }}"/>
+</head>
+<body>
+
+    <div class="container">
+        <H2>Available Skype chats where Sevabot has joined in</H2>
+
+        <p>To join Sevabot to a chat go to Skype client software and accept
+           chat invitations through Skype user interface</p>
+
+        <p>
+            Click any chat to send a test message there.
+        </p>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Chat id</th>
+                    <th>Title</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for chat_id, chat in chats %}
+                <tr>
+                    <td>
+                        <!--suppress HtmlUnknownTarget -->
+                        <a href="/chat_message/{{shared_secret}}/{{chat_id}}/">{{chat_id}}</a>
+                    </td>
+                    <td>{{chat.FriendlyName}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
