@@ -19,5 +19,5 @@ A clone of our friend based on sevabot
 # thanks to
 - Duarte Godinho
 - Pedro Estrela
-- Patrick
+- Patric Cunha
 - BOT Duarte Godinho
