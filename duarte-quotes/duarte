@@ -8,7 +8,7 @@ msgaddress="http://localhost:5000/msg/"
 
 while [ 1 ]
 do
-    quote=`perl -e 'srand; rand($.) < 1 && ($line = $_) while <>; print $line;' quotes`
+    quote=`gshuf -n 1 quotes`
     msg="$quote"
 
     md5=`echo -n "$chat$msg$secret" | md5 -r`
