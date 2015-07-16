@@ -11,8 +11,9 @@ fi
 echo "$*" >> ./duarte-quotes/quotes
 
 # commit to git
+git add ./duarte-quotes/quotes &>/dev/null
 git commit -m "New quote by $SKYPE_USERNAME ($SKYPE_FULLNAME)" &>/dev/null
-git push >> /dev/null  &>/dev/null
+git push &>/dev/null
 
 # let us know
 echo "estou mesmo desertinho para dizer a nova quote"
