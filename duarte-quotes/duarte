@@ -6,6 +6,9 @@ source config.sh
 
 while [ 1 ]
 do
+    #time verification
+    now=`date +"%H"`
+    dayofweek=`date +"%u"`
     quote=`gshuf -n 1 quotes`
     msg="$quote"
 
@@ -18,5 +21,14 @@ do
 
     curl $msgaddress --data-urlencode chat="$chat" --data-urlencode msg="$msg" --data-urlencode md5="$m"
     echo -e "Sent: $quote"
+    
+if [ "$now" < "09" || "$now" > "18" ]
+then
+    sleep $(( $(date -j 0930 +%s) - $(date +%s) ))
+elif [ "$dayofweek" > "5" ]
+then
+    sleep 1d
+else
     sleep 300
+fi
 done
