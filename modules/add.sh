@@ -3,7 +3,7 @@
 username="j.goncalinho"
 if [ "$SKYPE_USERNAME" = "$username" ]
 then
-	echo "eu quero e que tu te fodas, joao"
+	echo "eu quero e que tu te fodas joao tiago"
 	exit 1;
 fi
 
