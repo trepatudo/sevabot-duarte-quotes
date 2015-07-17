@@ -7,13 +7,13 @@ A clone of our friend based on sevabot
 - then run the script to read 'quotes' file
 ``` shell
 	cd duarte-quotes
-	bash duarte
+	bash duarte.sh
 ```
 
 # how to speak as duarte
 ``` shell
         cd duarte-quotes
-        bash duarte-msg <message here>
+        bash duarte-msg.sh <message here>
 ```
 
 # thanks to
