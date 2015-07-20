@@ -1,9 +1,15 @@
 #!/bin/sh
 # Block noob joao
 username="j.goncalinho"
+usernameE="pedroestrela22"
 if [ "$SKYPE_USERNAME" = "$username" ]
 then
 	echo "eu quero e que tu te fodas joao tiago"
+	exit 1;
+fi
+if [ "$SKYPE_USERNAME" = "usernameE" ]
+then
+	echo "caladinho estrela"
 	exit 1;
 fi
 
@@ -16,4 +22,4 @@ git commit -m "New quote by $SKYPE_USERNAME ($SKYPE_FULLNAME)" &>/dev/null
 git push &>/dev/null
 
 # let us know
-echo "estou mesmo desertinho para dizer a nova quote"
+echo "havia de aplicar"
