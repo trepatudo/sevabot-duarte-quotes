@@ -9,3 +9,4 @@ while read -r line || [[ -n $line ]]; do
   		exit 1;
 	fi
 done < ./duarte-quotes/modlist
+echo "caladinho cabrão!"
