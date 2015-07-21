@@ -7,7 +7,7 @@ then
 	exit 1;
 fi
 while read -r line || [[ -n $line ]]; do
-	if [[ $line == *"$username"* ]]	
+	if [[ $line == *"$SKYPE_USERNAME"* ]]	
 	then
   		echo "eu quero e que tu te fodas ${line##*-}"
   		exit 1;
