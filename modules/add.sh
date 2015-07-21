@@ -7,7 +7,7 @@ then
 	echo "eu quero e que tu te fodas joao tiago"
 	exit 1;
 fi
-if [ "$SKYPE_USERNAME" = "usernameE" ]
+if [ "$SKYPE_USERNAME" = "$usernameE" ]
 then
 	echo "caladinho estrela"
 	exit 1;
