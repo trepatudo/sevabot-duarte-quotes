@@ -1,17 +1,18 @@
 #!/bin/sh
 # Block noob joao
 username="j.goncalinho"
-usernameE="pedroestrela22"
 if [ "$SKYPE_USERNAME" = "$username" ]
 then
 	echo "eu quero e que tu te fodas joao tiago"
 	exit 1;
 fi
-if [ "$SKYPE_USERNAME" = "usernameE" ]
-then
-	echo "caladinho estrela"
-	exit 1;
-fi
+while read -r line || [[ -n $line ]]; do
+	if [[ $line == *"$username"* ]]	
+	then
+  		echo "eu quero e que tu te fodas ${line##*-}"
+  		exit 1;
+	fi
+done < ./duarte-quotes/blacklist
 
 # All good, duarte approves
 echo "$*" >> ./duarte-quotes/quotes
