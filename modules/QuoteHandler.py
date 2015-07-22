@@ -139,8 +139,6 @@ class QuoteHandler(StatefulSkypeHandler):
         response = client.delete("quotes", key)
 
         # make sure the request succeeded
-        msg.Chat.SendMessage("test")
-        print response.status_code
         try:
             response.raise_for_status()
             msg.Chat.SendMessage(settings.MESSAGES['rem_success'])
