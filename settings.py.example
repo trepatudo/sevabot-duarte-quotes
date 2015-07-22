@@ -13,6 +13,18 @@ ADMINS = ["trepatudo"]
 API_KEY = "EDIT-ME"
 API_URL = "EDIT-ME"
 
+#: Messages for Duarte
+#: Make sure they are unicode
+MESSAGES = {
+    # Quotes
+    'add_success': u'havia de aplicar',
+    'add_fail': u'não vou aplicar',
+    'rem_success': u'sdds',
+    'rem_fail': u'vou continuar a aplicar',
+    'rem_404': u'nss do que falas',
+}
+
+
 """
 SEVABOT Settings
 Change here to apply on core of sevabot
