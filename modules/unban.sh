@@ -11,7 +11,7 @@ while read -r line || [[ -n $line ]]; do
   		  echo "sdds"
   		  exit 1;
 	    fi
-    done < ./duarte-quotes/modlist
+    done < ./duarte-quotes/blacklist
     echo "nss"
   	exit 1;
 	fi
