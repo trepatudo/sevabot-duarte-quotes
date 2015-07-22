@@ -3,8 +3,8 @@ while read -r line || [[ -n $line ]]; do
 	if [[ $line == *"$SKYPE_USERNAME"* ]]	
 	then
 # user is a mod, go ahead and ban
-		while read -r line || [[ -n $line ]]; do
-			if [[ $line == *"$*"* ]]	
+		while read -r line || [[ -n $inline ]]; do
+			if [[ $inline == *"$*"* ]]	
 			then
 				echo "calminha $SKYPE_FULLNAME" | awk '{print tolower($0)}'
   				exit 1;	
