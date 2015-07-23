@@ -14,7 +14,7 @@
 
 from setuptools import setup
 
-README = open("README.rst", "rt").read() + "\n" + open("CHANGES.rst", "rt").read()
+README = open("README.md", "rt").read()
 
 
 setup(name = "sevabot",

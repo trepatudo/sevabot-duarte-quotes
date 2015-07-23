@@ -1,9 +1,52 @@
+# -*- coding: utf-8 -*-
+
+"""
+Duarte Settings
+Settings for Duarte modules
+"""
 
 #: Known shared secret key in order to send messages over HTTP interface
-SHARED_SECRET = "koskela"
+SHARED_SECRET = "EDIT-ME"
 
 #: List of Skype usernames who can administrate the bot
-ADMINS = ["oulu"]
+ADMINS = ["trepatudo"]
+
+#: API Key for orchestrator.io
+API_KEY = "EDIT-ME"
+API_URL = "EDIT-ME"
+
+#: Timer for Duarte random speaks
+#: Default: 5 minutes
+DUARTE_TIMER = 300.0
+
+#: The keyword to start Duarte on the channel
+DUARTE_KEYWORD = u"cabrão"
+
+#: Messages for Duarte
+#: Make sure they are unicode
+MESSAGES = {
+    # Quotes
+    'add_success': u'havia de aplicar',
+    'add_fail': u'não vou aplicar',
+    'rem_success': u'sdds',
+    'rem_fail': u'vou continuar a aplicar',
+    'rem_404': u'nss do que falas',
+
+    # Bans
+    'ban_success': u'tens de ficar interdito %s',
+    'ban_fail': u'nada',
+    'unban_success': u'vá... menos choro %s',
+    'unban_fail': u'nada',
+
+    # Random
+    'no_perms': u'andas muito espurio %s',
+    'banned': u'caladinho %s'
+}
+
+"""
+SEVABOT Settings
+Change here to apply on core of sevabot
+"""
 
 #: List of paths where we scan command-line modules
 #: Can be absolute path or relative to the current working directory
@@ -24,7 +67,7 @@ HTTP_PORT = 5000
 
 #: Setup Python logging for Sevabot
 #: Absolute path or relative to the settings file location
-LOG_FILE = "logs/sevabot.log"
+LOG_FILE = "sevabot.log"
 
 # http://docs.python.org/library/logging.html
 LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
