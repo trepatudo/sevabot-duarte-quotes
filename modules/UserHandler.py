@@ -203,6 +203,8 @@ class UserHandler(StatefulSkypeHandler):
         Detect if a user is moderator
          :param user: Handle to Result instance from getUser
         """
+        if not user:
+            return False
         if not user['moderator']:
             return False
         return True
@@ -213,6 +215,8 @@ class UserHandler(StatefulSkypeHandler):
         Detect if a user is banned
          :param user: Handle to Result instance from getUser
         """
+        if not user:
+            return False
         if not user['banned']:
             return False
         return True

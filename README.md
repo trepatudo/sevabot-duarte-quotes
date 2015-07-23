@@ -13,6 +13,7 @@ A clone of our friend based on sevabot
     !add <quote> - add a new quote
     !list - shows a list of all quotes in database
     !rem <quote hash> - remove a quote by it's hash (can get it from !list)
+    !meke - get a random quote
     *users*
     !ban <user> <reason> - ban a user from !add / !rem
     !unban <user>- removes the ban
