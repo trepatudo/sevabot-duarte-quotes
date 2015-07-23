@@ -10,12 +10,12 @@ A clone of our friend based on sevabot
 
 # commands
     *quotes*
-    !add - add a new quote
+    !add <quote> - add a new quote
     !list - shows a list of all quotes in database
-    !rem - remove a quote by it's hash (can get it from !list)
+    !rem <quote hash> - remove a quote by it's hash (can get it from !list)
     *users*
-    !ban - ban a user from !add / !rem
-    !unban - removes the ban
+    !ban <user> <reason> - ban a user from !add / !rem
+    !unban <user>- removes the ban
     !bans - list of bans
 
 # thanks to
