@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 Duarte Settings
 Settings for Duarte modules
@@ -13,6 +15,13 @@ ADMINS = ["trepatudo"]
 API_KEY = "EDIT-ME"
 API_URL = "EDIT-ME"
 
+#: Timer for Duarte random speaks
+#: Default: 5 minutes
+DUARTE_TIMER = 300.0
+
+#: The keyword to start Duarte on the channel
+DUARTE_KEYWORD = u"cabrão"
+
 #: Messages for Duarte
 #: Make sure they are unicode
 MESSAGES = {
@@ -22,8 +31,17 @@ MESSAGES = {
     'rem_success': u'sdds',
     'rem_fail': u'vou continuar a aplicar',
     'rem_404': u'nss do que falas',
-}
 
+    # Bans
+    'ban_success': u'tens de ficar interdito %s',
+    'ban_fail': u'nada',
+    'unban_success': u'vá... menos choro %s',
+    'unban_fail': u'nada',
+
+    # Random
+    'no_perms': u'andas muito espurio %s',
+    'banned': u'caladinho %s'
+}
 
 """
 SEVABOT Settings
@@ -46,7 +64,6 @@ HTTP_PORT = 5000
 #: Set logging level (INFO or DEBUG)
 #: This setting overrides --verbose option
 #: LOG_LEVEL = "INFO"
-LOG_LEVEL = "INFO"
 
 #: Setup Python logging for Sevabot
 #: Absolute path or relative to the settings file location
