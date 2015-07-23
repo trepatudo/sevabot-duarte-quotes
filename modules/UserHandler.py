@@ -173,9 +173,8 @@ class UserHandler(StatefulSkypeHandler):
         # Get quotes text and break line (utf8 !)
         usersString = []
         for s in users:
-            if users['banned']:
-                string = s['path']['key'] + " - " + s['value']['ban_reason'] + " > banned by: " + s['value'][
-                    'ban_author_name'] + "(" + s['value']['ban_author_id'] + ")"
+            if s['value']['banned'] != False:
+                string = s['path']['key'] + " - " + s['value']['ban_reason'] + " > banned by: " + s['value']['ban_author_name'] + "(" + s['value']['ban_author_id'] + ")"
                 usersString.append(string)
 
         # Send it
