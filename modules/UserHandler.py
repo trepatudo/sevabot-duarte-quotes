@@ -3,8 +3,8 @@
 # -*- coding: utf-8 -*-
 
 """
-QuoteHandler
-Handle quotes from Duarte and store them in orchestrator
+UserHandler
+Manage people allowed to add/remove quotes
 """
 
 from __future__ import unicode_literals
@@ -12,32 +12,28 @@ from __future__ import unicode_literals
 # Import shitloads of needed stuff
 import logging
 import datetime
-import hashlib
-import urllib
-import random
 
 # Sevabot & Orchestratre
-
 from sevabot.bot.stateful import StatefulSkypeHandler
 from sevabot.utils import ensure_unicode
-from porc import Client
+from porc import Client, Patch
 
 # Load settings
 import settings
 
 # Init logger
-logger = logging.getLogger('QuoteHandler')
+logger = logging.getLogger('UserHandler')
 # Init orchestrate.io
 client = Client(settings.API_KEY, settings.API_URL)
 
 # Set to debug only during dev
-logger.debug('[QuoteHandler] Loading class')
+logger.debug('[UserHandler] Loading class')
 
 
-class QuoteHandler(StatefulSkypeHandler):
+class UserHandler(StatefulSkypeHandler):
     """
-    QuoteHandler
-    Handle Duarte's quotes
+    UserHandler
+    Handle Duarte's bans
     """
 
     def __init__(self):
@@ -45,17 +41,16 @@ class QuoteHandler(StatefulSkypeHandler):
         Use `init` method to initialize a handler.
         """
 
-        logger.debug('[QuoteHandler] Constructed')
+        logger.debug('[UserHandler] Constructed')
 
     def init(self, sevabot):
         """
         Set-up our state. This is called every time module is (re)loaded.
         :param skype: Handle to Skype4Py instance
         """
-        logger.debug('[QuoteHandler] Initialized')
+        logger.debug('[UserHandler] Initialized')
 
-        self.commands = {'!add': self.quote_add, '!rem': self.quote_rem, '!list': self.quote_list,
-                         '!meke': self.quote_random}
+        self.commands = {'!ban': self.ban_add, '!unban': self.ban_rem, '!bans': self.ban_list}
 
     def handle_message(self, msg, status):
         """
@@ -66,7 +61,7 @@ class QuoteHandler(StatefulSkypeHandler):
         body = ensure_unicode(msg.Body)
 
         # Debug
-        logger.debug('[QuoteHandler] got: {}'.format(body))
+        logger.debug('[UserHandler] got: {}'.format(body))
 
         # If the separators are not specified, runs of consecutive
         # whitespace are regarded as a single separator
@@ -88,110 +83,103 @@ class QuoteHandler(StatefulSkypeHandler):
         """
         Called when the module is reloaded.
         """
-        logger.debug('[QuoteHandler]  shutdown')
+        logger.debug('[UserHandler]  shutdown')
 
     def getAll(self):
         """
-        Return all the quotes in database
+        Return all the users in database
         """
-        pages = client.list("quotes", limit=100)
-        quotes = pages.all()
+        pages = client.list("users", limit=100)
+        users = pages.all()
 
-        return quotes
+        return users
 
-    def quote_add(self, msg, status, args):
+    def ban_add(self, msg, status, args):
         """
-        Add a quote, use md5 hashed text as key
+        Add a user to ban list
         """
 
-        # Parse author and check if it's not banned
+        # Parse author and check if it's moderator
         authorUsername = msg.Sender.Handle
         author = self.getUser(authorUsername)
-        if self.isBanned(author):
-            if not author['ban_reason']:
-                msg.Chat.SendMessage(settings.MESSAGES['no_perms'] % (msg.Sender.FullName))
-            else:
-                msg.Chat.SendMessage(author['ban_reason'])
-
+        if not self.isMod(author):
+            msg.Chat.SendMessage(settings.MESSAGES['no_perms'] % (msg.Sender.FullName))
             return False
 
-        # Parse quote and hash it for key
-        quote = "".join(args[1:])
-        m = hashlib.md5()
-        m.update(quote)
-        key = m.hexdigest()
+
+        # Parse username
+        user = args[1]
+
+        # Is there a quote?
+        reason = ""
+        if (len(args) > 1):
+            reason = " ".join(args[2:])
 
         # Save on database with key hashed
-        response = client.put("quotes", key, {
-            "text": quote,
-            "author_id": msg.Sender.Handle,
-            "author_name": msg.Sender.FullName,
-            "time_created": str(datetime.datetime.now().isoformat())
+        response = client.put("users", user, {
+            "banned": True,
+            "ban_reason": reason,
+            "ban_author_id": msg.Sender.Handle,
+            "ban_author_name": msg.Sender.FullName,
+            "ban_time": str(datetime.datetime.now().isoformat())
         })
 
         # make sure the request succeeded
         try:
             response.raise_for_status()
-            msg.Chat.SendMessage(settings.MESSAGES['add_success'])
+            msg.Chat.SendMessage(settings.MESSAGES['ban_success'] % (user))
         except:
-            msg.Chat.SendMessage(settings.MESSAGES['add_fail'])
+            msg.Chat.SendMessage(settings.MESSAGES['ban_fail'])
             pass
 
-    def quote_rem(self, msg, status, args):
+    def ban_rem(self, msg, status, args):
         """
-        Remove a quote based on it's hash
+        Remove a username from banlist
         """
+
+        # Parse author and check if it's moderator
+        authorUsername = msg.Sender.Handle
+        author = self.getUser(authorUsername)
+        if not self.isMod(author):
+            msg.Chat.SendMessage(settings.MESSAGES['no_perms'] % (msg.Sender.FullName))
+            return False
 
         # Parse key
-        key = "".join(args[1:])
+        user = args[1]
 
-        # @TODO: Maybe check if the quote really exists? For now I don't think its necessary.
+        # @TODO: Maybe check if the user really exists? For now I don't think its necessary.
 
-        # Save on database with key hashed
-        response = client.delete("quotes", key)
+        # Save on database as a patch to "banned" value
+        patch = Patch()
+        patch.add("banned", False)
+        response = client.patch('users', user, patch)
 
         # make sure the request succeeded
         try:
             response.raise_for_status()
-            msg.Chat.SendMessage(settings.MESSAGES['rem_success'])
+            msg.Chat.SendMessage(settings.MESSAGES['unban_success'] % (user))
         except:
-            msg.Chat.SendMessage(settings.MESSAGES['rem_fail'])
+            msg.Chat.SendMessage(settings.MESSAGES['unban_fail'])
             pass
 
-    def quote_random(self, msg, status, args):
+    def ban_list(self, msg, status, args):
         """
-        Pick a random quote and send it
-        """
-        quotes = self.getAll()
-
-        # Send it
-        msg.Chat.SendMessage("%s" % (random.choice(quotes)['value']['text']))
-
-    def quote_list(self, msg, status, args):
-        """
-        Upload a list to sprunge.us
+        Show the list of banned users
         """
 
         # Get all quotes
-        quotes = self.getAll()
+        users = self.getAll()
 
         # Get quotes text and break line (utf8 !)
-        quotesString = []
-        for s in quotes:
-            string = s['path']['key'] + ": " + s['value']['text']
-            quotesString.append(string)
-
-        # Prepare upload
-        url = 'http://sprunge.us'
-        # Hardcoded POST string due to UTF-8 crap
-        data = 'sprunge=' + '\n'.join(quotesString) + '&submit=Submit'
-
-        # Upload and return url
-        response = urllib.urlopen(url, data.encode('utf-8'))
-        page = response.read()
+        usersString = []
+        for s in users:
+            if users['banned']:
+                string = s['path']['key'] + " - " + s['value']['ban_reason'] + " > banned by: " + s['value'][
+                    'ban_author_name'] + "(" + s['value']['ban_author_id'] + ")"
+                usersString.append(string)
 
         # Send it
-        msg.Chat.SendMessage("%s" % (page))
+        msg.Chat.SendMessage("%s" % ('\n'.join(usersString)))
 
     # copy paste
     # @TODO: This methods are copied into both handlers, should be put into a single class (repository)
@@ -228,11 +216,10 @@ class QuoteHandler(StatefulSkypeHandler):
         if not user['banned']:
             return False
         return True
-        
-    # EO copy paste :)
+        # EO copy paste :)
 
 
 # Export the instance to Sevabot
-sevabot_handler = QuoteHandler()
+sevabot_handler = UserHandler()
 
 __all__ = ['sevabot_handler']
