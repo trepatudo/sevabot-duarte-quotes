@@ -64,3 +64,6 @@ custom/*
 
 # Duarte custom stuff
 duarte-quotes/config.sh
+#sublime
+.sublime-project
+.sublime-workspace
