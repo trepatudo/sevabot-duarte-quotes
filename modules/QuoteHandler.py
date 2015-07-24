@@ -116,7 +116,7 @@ class QuoteHandler(StatefulSkypeHandler):
             return False
 
         # Parse quote and hash it for key
-        quote = "".join(args[1:])
+        quote = " ".join(args[1:])
         m = hashlib.md5()
         m.update(quote)
         key = m.hexdigest()
