@@ -13,6 +13,7 @@ from __future__ import unicode_literals
 import logging
 import random
 from threading import Timer
+from datetime import datetime
 
 # Sevabot & Orchestratre
 from sevabot.bot.stateful import StatefulSkypeHandler
@@ -118,25 +119,34 @@ class Duarte(StatefulSkypeHandler):
         """
         Pick a random quote and send it
         """
-
+        now_time = datetime.now().time()
+        sleepy_time = settings.DUARTE_TIMER
         # If speak = fal
         if speak == True:
-            quotes = self.getAllQuotes()
+            if time(11,55) <= now_time <= time(14,05):
+                # 15 minute timer
+                sleepy_time*=3
+            elif (time(9,35) > now_time) or (now_time > time(18,05):
+                # 60 minute timer
+                sleepy_time*=12
+            else:
+                quotes = self.getAllQuotes()
 
-            # New quote
-            logger.info('Getting new quote')
+                # New quote
+                logger.info('Getting new quote')
 
-            # Get channels
-            for c in self.channels:
-                # Quote
-                logger.info('Sending new quote to: %s' % (c))
-                # Send it
-                self.sevabot.sendMessage(c, "%s" % (random.choice(quotes)['value']['text']))
+                # Get channels
+                for c in self.channels:
+                    # Quote
+                    logger.info('Sending new quote to: %s' % (c))
+                    # Send it
+                    self.sevabot.sendMessage(c, "%s" % (random.choice(quotes)['value']['text']))
 
         # 5 minute timer
-        self.notifier = Timer(settings.DUARTE_TIMER, self.duarte_speak)
+        self.notifier = Timer(sleepy_time, self.duarte_speak)
         self.notifier.daemon = True  # Make sure CTRL+C works and does not leave timer blocking it
         self.notifier.start()
+
 
 
 # Export the instance to Sevabot
