@@ -64,3 +64,6 @@ custom/*
 
 # Duarte custom stuff
 duarte-quotes/config.sh
+#sublime files are user specific
+*.sublime-project
+*.sublime-workspace
