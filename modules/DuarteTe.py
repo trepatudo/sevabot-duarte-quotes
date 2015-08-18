@@ -59,7 +59,7 @@ class DuarteTe(StatefulSkypeHandler):
         self.commands = {'!te': self.duarte_te}
 
         # var for last setence
-        self.lastMsg = u''
+        self.lastMsg = ensure_unicode(u'')
 
     def handle_message(self, msg, status):
         """
@@ -88,7 +88,7 @@ class DuarteTe(StatefulSkypeHandler):
 
         # No command, save message from Duarte
         if (msg.Sender.Handle == "duarte.m.godinho"):
-            msg.lastMsg = body
+            self.lastMsg = ensure_unicode(msg.Body)
 
 
         return False
@@ -117,9 +117,7 @@ class DuarteTe(StatefulSkypeHandler):
         if not len (msgArray):
             return False
 
-        msgTe = msgArray.split()
-
-        msg.Chat.SendMessage('-te '.join(msgTe) + '-te')
+        msg.Chat.SendMessage('-te '.join(msgArray) + '-te')
 
 
 
